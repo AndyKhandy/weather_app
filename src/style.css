@@ -1,3 +1,99 @@
-h1 {
-    color: purple;
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.flex {
+    display: flex;
+}
+
+body {
+    padding: 5%;
+    color: white;
+}
+
+.main-section{
+    grid-area: main;
+}
+
+.current-conditions-others {
+    grid-area: other;
+}
+
+.future-forecasts {
+    grid-area: future;
+}
+
+#title {
+    position: absolute;
+    left: 45%;
+    top: 5%;
+    color: black;
+}
+
+.box {
+    background-color: rgb(3, 3, 3);
+    border-radius: 30px;
+    padding: 20px;
+}
+
+button {
+    cursor: pointer;
+    width: 60px;
+    background-color: white;
+    border-radius: 10px;
+}
+/*MAIN CONTAINER*/
+
+.main-content,.main-section {
+    gap: 15px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.main-content {
+    display: grid;
+    grid-template-areas:
+    "main other"
+    "main other"
+    'main future';
+    background-color: rgb(255, 4, 0);
+    min-height: 75vh;
+    width: min(2000px, 90%);
+    margin: 50px auto;
+    padding: 30px;
+}
+
+/*MAIN SECTION*/
+
+.main-section {
+    display: grid;
+    grid-template-rows: 8% 90%;
+    background: rgb(125, 202, 220);
+    border: 20px solid rgb(184, 182, 180);
+}
+
+/*USER ACTIVITY*/
+
+.user-activity {
+    gap: 10px;
+    padding: 0px;
+    background-color: transparent;
+}
+
+.user-activity form, form input{
+    height: 100%;
+    width: 100%;
+}
+
+form input {
+    padding-left: 3%;
+    border-radius: 10px;
+}
+
+/*MAIN CURRENT CONDITIONS*/
+.current-conditions-main{
+    flex-direction: column;
+    align-items: center;
 }

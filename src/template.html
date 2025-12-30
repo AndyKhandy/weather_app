@@ -1,14 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Howdy!</h1>
-    <form>
-        <input type="text" placeholder="Enter a location" required>
-    </form>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skydex</title>
+  </head>
+  <body>
+    <h1 id="title">Skydex</h1>
+
+    <div class="main-content">
+      <div class="main-section">
+        <div class="user-activity flex box">
+          <button id="change-measurement">°F / °C</button>
+          <form>
+            <input type="text" placeholder="Enter a location" required />
+          </form>
+        </div>
+
+        <div class="current-conditions-main flex box">
+          <h1 id="location-title">London</h1>
+          <p class="time">9:41</p>
+          <p>2025-12-30</p>
+          <img src="img/cloudy.svg" alt="">
+          <p>25.5°F</p>
+          <p>Similar temperatures continuing with no rain expected.</p>
+        </div>
+      </div>
+
+    <div class="current-conditions-others box">
+        <h1>Current Weather Details</h1>
+        <div class="others-section flex">
+            <p>Wind Speed</p>
+            <p>5km</p>
+        </div>
+
+        <div class="others-section flex">
+          
+        </div>
+
+        <div class="others-section flex">
+        
+        </div>
+    </div>
+
+    <div class="future-forecasts box">
+      <h1>Forecast for 5 days</h1>
+
+      <div class="cards flex">
+        <div class="day-card">
+        <h2 class="day-name">Tuesday</h2>
+        <p>5°F <span class="warmest">30°F</span></p>
+      </div>
+
+      <div class="day-card">
+        <h2 class="day-name">Wednesday</h2>
+        <p>5°F <span class="warmest">30°F</span></p>
+      </div>
+
+      <div class="day-card">
+        <h2 class="day-name">Thursday</h2>
+        <p>5°F <span class="warmest">30°F</span></p>
+      </div>
+
+      <div class="day-card">
+        <h2 class="day-name">Friday</h2>
+        <p>5°F <span class="warmest">30°F</span></p>
+      </div>
+
+      <div class="day-card">
+        <h2 class="day-name">Saturday</h2>
+        <p>5°F <span class="warmest">30°F</span></p>
+      </div>
+
+      <div class="day-card">
+        <h2 class="day-name">Sunday</h2>
+        <p>5°F <span class="warmest">30°F</span></p>
+      </div>
+      </div>
+    
+    </div>
+
+    </div>
+
+  </body>
 </html>

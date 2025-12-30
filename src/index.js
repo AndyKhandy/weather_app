@@ -26,8 +26,6 @@ async function getAPIData()
         }
 
         weatherAPIdata = await response.json();
-        console.log(weatherAPIdata);
-
     } catch (error) {
         console.error("There was an error!: ",error);
     }
