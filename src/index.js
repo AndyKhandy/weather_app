@@ -1,9 +1,12 @@
 import "./style.css";
-import {format, parseISO} from "date-fns";
+import { format, parseISO } from "date-fns";
 
 const API_KEY = "5JKT896CV9G7SN2NK66PCYCW5";
 const form = document.querySelector("form");
 const changeMeasurementBtn = document.querySelector("#change-measurement");
+const loadingScreen = document.querySelector("#loading-screen");
+const mainScreen = document.querySelector(".main-content");
+
 let location = "Tokyo";
 let weatherAPIdata = null;
 let weatherAPIdaysData = null;
@@ -15,17 +18,34 @@ form.addEventListener("submit", (e) => {
   location = userInput;
   console.log(location);
   form.reset();
-  getAPIData().then(displayMainSection).then(displayOtherSection).then(displayForcast);
+  runSkydex();
 });
 
-changeMeasurementBtn.addEventListener("click",()=>{
+changeMeasurementBtn.addEventListener("click", () => {
   changeMeasurement();
-})
+});
 
-getAPIData().then(displayMainSection).then(displayOtherSection).then(displayForcast);
+runSkydex();
+
+function runSkydex()
+{
+  getAPIData()
+  .finally(() => {
+    setTimeout(() => {
+      loadingScreen.classList.remove("loading");
+      mainScreen.classList.remove("loading");
+    }, Math.floor(Math.random()*2000)+1000);
+  })
+  .then(displayMainSection)
+  .then(displayOtherSection)
+  .then(displayForcast);
+}
 
 async function getAPIData() {
   let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(location)}/next6days?unitGroup=us&key=${API_KEY}`;
+
+  loadingScreen.classList.add("loading");
+  mainScreen.classList.add("loading");
 
   try {
     let response = await fetch(url);
@@ -44,52 +64,55 @@ async function getAPIData() {
 
 const feelsLikeDisplay = document.querySelector("#feels-like-data");
 
-function displayMainSection()
-{
-    const currentConditionsBox = document.querySelector(".current-conditions-main");
+function displayMainSection() {
+  const currentConditionsBox = document.querySelector(
+    ".current-conditions-main"
+  );
 
-    const currentDay = weatherAPIdaysData[0];
+  const currentDay = weatherAPIdaysData[0];
 
-    currentConditionsBox.innerHTML = "";
+  currentConditionsBox.innerHTML = "";
 
-    const top = document.createElement("div");
-    top.classList.add("flex");
+  const top = document.createElement("div");
+  top.classList.add("flex");
 
-    const title = document.createElement("h1");
-    title.id = "location-title";
-    let locationText = location.toLowerCase().split(" ").map((word) => {
-        return word[0].toUpperCase() + word.slice(1);
+  const title = document.createElement("h1");
+  title.id = "location-title";
+  let locationText = location
+    .toLowerCase()
+    .split(" ")
+    .map((word) => {
+      return word[0].toUpperCase() + word.slice(1);
     });
-    title.textContent = locationText.join(" ");
+  title.textContent = locationText.join(" ");
 
-    const date = document.createElement("p");
-    date.id = "date";
-    date.textContent = formatDate(currentDay.datetime, "date");
+  const date = document.createElement("p");
+  date.id = "date";
+  date.textContent = formatDate(currentDay.datetime, "date");
 
-    top.append(title,date);
+  top.append(title, date);
 
-    const img = document.createElement("img");
-    showImage(currentConditionsData.icon, img);
+  const img = document.createElement("img");
+  showImage(currentConditionsData.icon, img);
 
-    const bottom = document.createElement("div");
-    bottom.classList.add("flex");
-    
-    const temperature = document.createElement("p");
-    temperature.id = "temperature";
-    temperature.classList.add("non-pixel", "temp");
-    temperature.textContent = `${currentConditionsData.temp} °F`;
+  const bottom = document.createElement("div");
+  bottom.classList.add("flex");
 
-    const descript = document.createElement("p");
-    descript.id = "description";
-    descript.textContent = weatherAPIdata.description;
+  const temperature = document.createElement("p");
+  temperature.id = "temperature";
+  temperature.classList.add("non-pixel", "temp");
+  temperature.textContent = `${currentConditionsData.temp} °F`;
 
-    bottom.append(temperature, descript);
+  const descript = document.createElement("p");
+  descript.id = "description";
+  descript.textContent = weatherAPIdata.description;
 
-    currentConditionsBox.append(top, img, bottom);
+  bottom.append(temperature, descript);
+
+  currentConditionsBox.append(top, img, bottom);
 }
 
-function displayOtherSection()
-{
+function displayOtherSection() {
   const conditionsDisplay = document.querySelector("#conditions-data");
   const humidityDisplay = document.querySelector("#humidity-data");
   const precipDisplay = document.querySelector("#precip-data");
@@ -98,26 +121,25 @@ function displayOtherSection()
 
   conditionsDisplay.textContent = `${currentConditionsData.conditions}`;
   humidityDisplay.textContent = `${currentConditionsData.humidity}%`;
-  if(currentConditionsData.precip == null || currentConditionsData.precip == 0)
-  {
+  if (
+    currentConditionsData.precip == null ||
+    currentConditionsData.precip == 0
+  ) {
     precipDisplay.textContent = "none";
-  }
-  else{
-      precipDisplay.textContent = `${currentConditionsData.precip} inches`;
+  } else {
+    precipDisplay.textContent = `${currentConditionsData.precip} inches`;
   }
 
   windDisplay.textContent = `${currentConditionsData.windspeed} mph`;
-  cloudCoverDisplay.textContent = `${currentConditionsData.cloudcover}%`
-  feelsLikeDisplay.textContent = `${currentConditionsData.feelslike} °F`
+  cloudCoverDisplay.textContent = `${currentConditionsData.cloudcover}%`;
+  feelsLikeDisplay.textContent = `${currentConditionsData.feelslike} °F`;
 }
 
-function displayForcast()
-{
+function displayForcast() {
   const forecastContainer = document.querySelector(".cards");
   forecastContainer.innerHTML = "";
 
-  for(let i = 1; i < weatherAPIdaysData.length; i++)
-  {
+  for (let i = 1; i < weatherAPIdaysData.length; i++) {
     let day = weatherAPIdaysData[i];
     const card = document.createElement("div");
     card.classList.add("day-card", "flex");
@@ -133,48 +155,42 @@ function displayForcast()
     temperatureDiv.classList.add("flex", "flex-ali");
 
     const temperature = document.createElement("p");
-    temperature.classList.add("non-pixel","temp");
+    temperature.classList.add("non-pixel", "temp");
 
     const colder = document.createElement("span");
     colder.classList.add("coldest", "temp", "non-pixel");
-    
+
     temperature.textContent = `${day.tempmax} °F`;
     colder.textContent = `${day.tempmin} °F`;
 
     temperatureDiv.append(colder, temperature);
 
-
-    card.append(dayTitle,img,temperatureDiv);
+    card.append(dayTitle, img, temperatureDiv);
     forecastContainer.append(card);
-  };
+  }
 }
 
-function changeMeasurement()
-{
+function changeMeasurement() {
   const temperatureElements = document.querySelectorAll(".temp");
   let convertToC = true;
 
-  if(changeMeasurementBtn.textContent == "°F"){
+  if (changeMeasurementBtn.textContent == "°F") {
     convertToC = false;
     changeMeasurementBtn.textContent = "°C";
-  }
-  else{
+  } else {
     changeMeasurementBtn.textContent = "°F";
   }
 
-  temperatureElements.forEach((element)=>{
+  temperatureElements.forEach((element) => {
     let text = element.textContent;
     let splitText = text.split(" ");
     let temperature = +splitText[0];
-    if(convertToC)
-    {
+    if (convertToC) {
       element.textContent = `${convertToCelcius(temperature)} °C`;
-    }
-    else{
+    } else {
       element.textContent = `${convertToFarenheit(temperature)} °F`;
     }
   });
-
 }
 
 async function showImage(name, img) {
@@ -182,28 +198,22 @@ async function showImage(name, img) {
   img.src = imageModule.default;
 }
 
-function formatDate(dateString, specifier){
-  if(specifier == "day")
-  {
-    return format(parseISO(dateString),"EEEE");
+function formatDate(dateString, specifier) {
+  if (specifier == "day") {
+    return format(parseISO(dateString), "EEEE");
+  } else if (specifier == "date") {
+    return format(parseISO(dateString), "EEEE, MMMM d");
   }
-  else if(specifier == "date")
-  {
-     return format(parseISO(dateString),"EEEE, MMMM d");
-  }
-   return format(parseISO(dateString),"MMMM d");
+  return format(parseISO(dateString), "MMMM d");
 }
 
-function convertToCelcius(temp)
-{
-  return Math.round((temp - 32) * 5/9);
+function convertToCelcius(temp) {
+  return Math.round(((temp - 32) * 5) / 9);
 }
 
-function convertToFarenheit(temp)
-{
-  return Math.round((temp * 9/5) + 32);
+function convertToFarenheit(temp) {
+  return Math.round((temp * 9) / 5 + 32);
 }
-
 
 //weatherAPIData.currentConditions
 //weatherAPIData.days ( [0] is today [1] is tmr etc)
