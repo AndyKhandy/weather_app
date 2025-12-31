@@ -34,6 +34,10 @@ body {
   grid-area: future;
 }
 
+.circles {
+    grid-area: decorate;
+}
+
 #title {
   position: absolute;
   left: 45%;
@@ -65,14 +69,46 @@ button {
 .main-content {
   display: grid;
   grid-template-areas:
+    "decorate decorate"
     "main other"
     "main other"
     "main future";
-  background-color: rgb(255, 4, 0);
+  background-color: rgb(201, 8, 5);
   min-height: 80vh;
   width: min(2000px, 90%);
   margin: 0px auto;
   padding: 30px;
+}
+
+/*CIRCLES*/
+.circles div {
+    border-radius: 50%;
+    background-color: var(--circle-color);
+    outline: 2px solid black;
+}
+
+.big{
+    width: 80px;
+    height: 80px;
+    --circle-color: rgb(37, 135, 239);
+    border: 4px solid white;
+}
+
+.small {
+    width: 25px;
+    height: 25px;
+}
+
+.red {
+    --circle-color: rgb(238, 13, 13);
+}
+
+.yellow {
+    --circle-color: yellow;
+}
+
+.green {
+    --circle-color: green;
 }
 
 /*MAIN SECTION*/

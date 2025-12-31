@@ -6,6 +6,7 @@ const form = document.querySelector("form");
 let location = "Tokyo";
 let weatherAPIdata = null;
 let weatherAPIdaysData = null;
+let currentConditionsData = null;
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -13,13 +14,13 @@ form.addEventListener("submit", (e) => {
   location = userInput;
   console.log(location);
   form.reset();
-  getAPIData().then(displayMainSection);
+  getAPIData().then(displayMainSection).then(displayOtherSection);
 });
 
-getAPIData().then(displayMainSection);
+getAPIData().then(displayMainSection).then(displayOtherSection);
 
 async function getAPIData() {
-  let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(location)}/next6days?key=${API_KEY}`;
+  let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(location)}/next6days?unitGroup=us&key=${API_KEY}`;
 
   try {
     let response = await fetch(url);
@@ -33,13 +34,15 @@ async function getAPIData() {
     console.error("There was an error!: ", error);
   }
   weatherAPIdaysData = weatherAPIdata.days;
+  currentConditionsData = weatherAPIdata.currentConditions;
 }
+
+const feelsLikeDisplay = document.querySelector("#feels-like-data");
 
 function displayMainSection()
 {
     const currentConditionsBox = document.querySelector(".current-conditions-main");
 
-    const currentConditionsData = weatherAPIdata.currentConditions;
     const currentDay = weatherAPIdaysData[0];
 
     currentConditionsBox.innerHTML = "";
@@ -68,7 +71,7 @@ function displayMainSection()
     
     const temperature = document.createElement("p");
     temperature.id = "temperature";
-    temperature.textContent = `${currentConditionsData.temp}°F`;
+    temperature.textContent = `${currentConditionsData.temp} °F`;
 
     const descript = document.createElement("p");
     descript.id = "description";
@@ -77,6 +80,29 @@ function displayMainSection()
     bottom.append(temperature, descript);
 
     currentConditionsBox.append(top, img, bottom);
+}
+
+function displayOtherSection()
+{
+  const conditionsDisplay = document.querySelector("#conditions-data");
+  const humidityDisplay = document.querySelector("#humidity-data");
+  const precipDisplay = document.querySelector("#precip-data");
+  const windDisplay = document.querySelector("#wind-data");
+  const cloudCoverDisplay = document.querySelector("#cloud-data");
+
+  conditionsDisplay.textContent = `${currentConditionsData.conditions}`;
+  humidityDisplay.textContent = `${currentConditionsData.humidity}%`;
+  if(currentConditionsData.precip == null || currentConditionsData.precip == 0)
+  {
+    precipDisplay.textContent = "none";
+  }
+  else{
+      precipDisplay.textContent = `${currentConditionsData.precip} inches`;
+  }
+
+  windDisplay.textContent = `${currentConditionsData.windspeed} mph`;
+  cloudCoverDisplay.textContent = `${currentConditionsData.cloudcover}%`
+  feelsLikeDisplay.textContent = `${currentConditionsData.feelslike} °F`
 
 }
 
@@ -95,6 +121,16 @@ function formatDate(dateString, specifier){
      return format(parseISO(dateString),"EEEE, MMMM d");
   }
    return format(parseISO(dateString),"MMMM d");
+}
+
+function convertToCelcius(temp)
+{
+  return (32 - temp) * 5/9;
+}
+
+function convertToFarenheit(temp)
+{
+  return (temp * 9/5) + 32;
 }
 
 
