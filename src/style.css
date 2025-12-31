@@ -19,7 +19,7 @@
 }
 
 body {
-  padding: 2% 5% 2% 5%;
+  padding: 45px 90px;
   color: white;
   background-image: url(./img/background.jpg);
   background-size: cover;
@@ -76,7 +76,12 @@ button:hover {
 }
 
 #loading-screen.loading {
-    display: block;
+    display: flex;
+}
+
+#pokeball {
+    display: none;
+    fill: white;
 }
 /*MAIN CONTAINER*/
 
@@ -96,9 +101,12 @@ button:hover {
     "main future";
   background-color: rgb(201, 8, 5);
   min-height: 80vh;
-  width: min(2000px, 90%);
+  width: min(2000px, 100%);
   margin: 0px auto;
   padding: 30px;
+  outline: 5px solid black;
+  border: 2px solid white;
+  position: relative;
 }
 
 .main-content.loading {
@@ -106,9 +114,6 @@ button:hover {
 }
 
 /*CIRCLES*/
-.circles {
-    position: relative;
-}
 
 .circles div {
     border-radius: 50%;
@@ -147,9 +152,9 @@ h1{
 #title {
   color: rgb(255, 255, 255);
   position: absolute;
-  right: 0px;
-  top: 10%;
-  font-size: 50px;
+  right: 2%;
+  top: 2%;
+  font-size: 75px;
 }
 
 /*MAIN SECTION*/
@@ -275,8 +280,69 @@ input::placeholder, input {
     gap: 10px;
     height: 80%;
     margin-bottom: 20px;
+    display: flex;
 }
 
 .cards .coldest {
     opacity: 0.8;
+}
+
+@media screen and (max-width: 1500px)
+{
+    body {
+        background-image: none;
+        background-color: rgb(11, 39, 65);
+    }
+    .main-content {
+        grid-template-areas:
+    "decorate decorate"
+    "main other"
+    "future future";
+    }
+    
+    #pokeball{
+        display: block;
+        width: 250px;
+        height: 250px;
+    }
+
+    #loading-screen {
+        margin-top: 23%;
+    }
+}
+
+@media screen and (max-width: 1100px)
+{
+    .cards{
+        display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media screen and (max-width: 950px)
+{
+    .main-content {
+        grid-template-areas:
+    "decorate"
+    "main"
+    "other"
+    "future";
+    }
+
+    body {
+        padding: 5%;
+    }
+
+    #title {
+        top:0px;
+         left: 10px;
+    }
+
+    .main-section{
+        margin-top: 60px;
+    }
+
+    .circles div {
+        display: none;
+    }
 }
