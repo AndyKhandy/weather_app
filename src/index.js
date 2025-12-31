@@ -3,6 +3,7 @@ import {format, parseISO} from "date-fns";
 
 const API_KEY = "5JKT896CV9G7SN2NK66PCYCW5";
 const form = document.querySelector("form");
+const changeMeasurementBtn = document.querySelector("#change-measurement");
 let location = "Tokyo";
 let weatherAPIdata = null;
 let weatherAPIdaysData = null;
@@ -14,10 +15,14 @@ form.addEventListener("submit", (e) => {
   location = userInput;
   console.log(location);
   form.reset();
-  getAPIData().then(displayMainSection).then(displayOtherSection);
+  getAPIData().then(displayMainSection).then(displayOtherSection).then(displayForcast);
 });
 
-getAPIData().then(displayMainSection).then(displayOtherSection);
+changeMeasurementBtn.addEventListener("click",()=>{
+  changeMeasurement();
+})
+
+getAPIData().then(displayMainSection).then(displayOtherSection).then(displayForcast);
 
 async function getAPIData() {
   let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(location)}/next6days?unitGroup=us&key=${API_KEY}`;
@@ -71,6 +76,7 @@ function displayMainSection()
     
     const temperature = document.createElement("p");
     temperature.id = "temperature";
+    temperature.classList.add("non-pixel", "temp");
     temperature.textContent = `${currentConditionsData.temp} °F`;
 
     const descript = document.createElement("p");
@@ -103,6 +109,71 @@ function displayOtherSection()
   windDisplay.textContent = `${currentConditionsData.windspeed} mph`;
   cloudCoverDisplay.textContent = `${currentConditionsData.cloudcover}%`
   feelsLikeDisplay.textContent = `${currentConditionsData.feelslike} °F`
+}
+
+function displayForcast()
+{
+  const forecastContainer = document.querySelector(".cards");
+  forecastContainer.innerHTML = "";
+
+  for(let i = 1; i < weatherAPIdaysData.length; i++)
+  {
+    let day = weatherAPIdaysData[i];
+    const card = document.createElement("div");
+    card.classList.add("day-card", "flex");
+
+    const dayTitle = document.createElement("h2");
+    dayTitle.classList.add("day-name");
+    dayTitle.textContent = formatDate(day.datetime, "day");
+
+    const img = document.createElement("img");
+    showImage(day.icon, img);
+
+    const temperatureDiv = document.createElement("div");
+    temperatureDiv.classList.add("flex", "flex-ali");
+
+    const temperature = document.createElement("p");
+    temperature.classList.add("non-pixel","temp");
+
+    const colder = document.createElement("span");
+    colder.classList.add("coldest", "temp", "non-pixel");
+    
+    temperature.textContent = `${day.tempmax} °F`;
+    colder.textContent = `${day.tempmin} °F`;
+
+    temperatureDiv.append(colder, temperature);
+
+
+    card.append(dayTitle,img,temperatureDiv);
+    forecastContainer.append(card);
+  };
+}
+
+function changeMeasurement()
+{
+  const temperatureElements = document.querySelectorAll(".temp");
+  let convertToC = true;
+
+  if(changeMeasurementBtn.textContent == "°F"){
+    convertToC = false;
+    changeMeasurementBtn.textContent = "°C";
+  }
+  else{
+    changeMeasurementBtn.textContent = "°F";
+  }
+
+  temperatureElements.forEach((element)=>{
+    let text = element.textContent;
+    let splitText = text.split(" ");
+    let temperature = +splitText[0];
+    if(convertToC)
+    {
+      element.textContent = `${convertToCelcius(temperature)} °C`;
+    }
+    else{
+      element.textContent = `${convertToFarenheit(temperature)} °F`;
+    }
+  });
 
 }
 
@@ -125,12 +196,12 @@ function formatDate(dateString, specifier){
 
 function convertToCelcius(temp)
 {
-  return (32 - temp) * 5/9;
+  return Math.round((temp - 32) * 5/9);
 }
 
 function convertToFarenheit(temp)
 {
-  return (temp * 9/5) + 32;
+  return Math.round((temp * 9/5) + 32);
 }
 
 

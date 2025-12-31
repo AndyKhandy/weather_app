@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+
 .flex {
   display: flex;
   gap: 5px;
@@ -18,8 +19,15 @@
 }
 
 body {
-  padding: 5%;
+  padding: 2% 5% 2% 5%;
   color: white;
+  background-image: url(./img/background.jpg);
+  background-size: cover;
+  font-family: "Pixelify Sans";
+}
+
+.non-pixel {
+    font-family: "Sour Gummy";
 }
 
 .main-section {
@@ -38,13 +46,6 @@ body {
     grid-area: decorate;
 }
 
-#title {
-  position: absolute;
-  left: 45%;
-  top: 3%;
-  color: black;
-}
-
 .box {
   background-color: rgba(3, 3, 3, 0.49);
   border-radius: 30px;
@@ -56,6 +57,14 @@ button {
   width: 70px;
   background-color: white;
   border-radius: 10px;
+  font-family: "Sour Gummy";
+  font-size: 24px;
+  transition:0.5s;
+}
+
+button:hover {
+    background-color: rgb(8, 95, 113);
+    color: white;
 }
 /*MAIN CONTAINER*/
 
@@ -63,7 +72,7 @@ button {
 .main-section {
   gap: 15px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 45px;
 }
 
 .main-content {
@@ -81,6 +90,10 @@ button {
 }
 
 /*CIRCLES*/
+.circles {
+    position: relative;
+}
+
 .circles div {
     border-radius: 50%;
     background-color: var(--circle-color);
@@ -88,8 +101,8 @@ button {
 }
 
 .big{
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     --circle-color: rgb(37, 135, 239);
     border: 4px solid white;
 }
@@ -111,13 +124,25 @@ button {
     --circle-color: green;
 }
 
+h1{
+    font-size: 35px;
+}
+
+#title {
+  color: rgb(255, 255, 255);
+  position: absolute;
+  right: 0px;
+  top: 10%;
+  font-size: 50px;
+}
+
 /*MAIN SECTION*/
 
 .main-section {
   display: grid;
   grid-template-rows: 8% 90%;
   background: rgb(125, 202, 220);
-  border: 20px solid rgb(184, 182, 180);
+  border: 20px solid rgba(184, 182, 180, 0.834);
 }
 
 /*USER ACTIVITY*/
@@ -139,9 +164,15 @@ form input {
   border-radius: 10px;
 }
 
-input::placeholder {
+input:focus, input:active{
+    outline: 2px solid rgb(8, 95, 113);
+}
+
+input::placeholder, input {
     font-weight:bolder;
     text-transform: uppercase;
+    font-family: "Sour Gummy";
+    font-size: 20px;
 }
 
 /*MAIN CURRENT CONDITIONS*/
@@ -228,4 +259,8 @@ input::placeholder {
     gap: 10px;
     height: 80%;
     margin-bottom: 20px;
+}
+
+.cards .coldest {
+    opacity: 0.8;
 }
