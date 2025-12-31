@@ -16,6 +16,8 @@ form.addEventListener("submit", (e) => {
   getAPIData().then(displayMainSection);
 });
 
+getAPIData().then(displayMainSection);
+
 async function getAPIData() {
   let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(location)}/next6days?key=${API_KEY}`;
 
@@ -42,21 +44,28 @@ function displayMainSection()
 
     currentConditionsBox.innerHTML = "";
 
+    const top = document.createElement("div");
+    top.classList.add("flex");
+
     const title = document.createElement("h1");
     title.id = "location-title";
-    title.textContent = location;
-
-    const time = document.createElement("p");
-    time.classList.add("time");
-    time.textContent = currentConditionsData.datetime.slice(0,5);
+    let locationText = location.toLowerCase().split(" ").map((word) => {
+        return word[0].toUpperCase() + word.slice(1);
+    });
+    title.textContent = locationText.join(" ");
 
     const date = document.createElement("p");
     date.id = "date";
-    date.textContent = formatDate(currentDay.datetime);
+    date.textContent = formatDate(currentDay.datetime, "date");
+
+    top.append(title,date);
 
     const img = document.createElement("img");
     showImage(currentConditionsData.icon, img);
 
+    const bottom = document.createElement("div");
+    bottom.classList.add("flex");
+    
     const temperature = document.createElement("p");
     temperature.id = "temperature";
     temperature.textContent = `${currentConditionsData.temp}°F`;
@@ -65,7 +74,9 @@ function displayMainSection()
     descript.id = "description";
     descript.textContent = weatherAPIdata.description;
 
-    currentConditionsBox.append(title,time,date,img,temperature,descript)
+    bottom.append(temperature, descript);
+
+    currentConditionsBox.append(top, img, bottom);
 
 }
 
@@ -74,18 +85,19 @@ async function showImage(name, img) {
   img.src = imageModule.default;
 }
 
-function formatDate(dateString){
-   return format(parseISO(dateString),"EEEE, MMMM d");
+function formatDate(dateString, specifier){
+  if(specifier == "day")
+  {
+    return format(parseISO(dateString),"EEEE");
+  }
+  else if(specifier == "date")
+  {
+     return format(parseISO(dateString),"EEEE, MMMM d");
+  }
+   return format(parseISO(dateString),"MMMM d");
 }
 
 
 //weatherAPIData.currentConditions
 //weatherAPIData.days ( [0] is today [1] is tmr etc)
 //conditions, temp, description, icon
-
-/*          <h1 id="location-title">London</h1>
-          <p class="time">9:41</p>
-          <p id="date">2025-12-30</p>
-          <img src="img/cloudy.svg">
-          <p id="temperature">25.5°F</p>
-          <p id="description">Similar temperatures continuing with no rain expected.</p> */
