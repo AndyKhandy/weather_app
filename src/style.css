@@ -5,8 +5,8 @@
 }
 
 :root{
-    --largest-font-size: clamp(45px,2rem + 2.4vw, 70px);
-    --medium-font-size: clamp(20px, 1rem + 0.8vw, 30px);
+    --largest-font-size: clamp(45px,2rem + 2.4vw, 65px);
+    --medium-font-size: clamp(18px, 0.2rem + 1.5vw, 24px);
     --small-font-size: clamp(10px, 0.5rem + 1vw, 20px);
 }
 
@@ -25,7 +25,7 @@
 }
 
 body {
-  padding: 45px 90px;
+  padding: 45px 60px;
   color: white;
   background-image: url(./img/background.jpg);
   background-size: cover;
