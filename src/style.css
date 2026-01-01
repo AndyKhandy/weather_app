@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+:root{
+    --largest-font-size: clamp(45px,2rem + 2.4vw, 70px);
+    --medium-font-size: clamp(20px, 1rem + 0.8vw, 30px);
+    --small-font-size: clamp(10px, 0.5rem + 1vw, 20px);
+}
+
 
 .flex {
   display: flex;
@@ -59,7 +65,7 @@ button {
   background-color: white;
   border-radius: 10px;
   font-family: "Sour Gummy";
-  font-size: 24px;
+  font-size: var(--medium-font-size);
   transition:0.5s;
 }
 
@@ -72,7 +78,7 @@ button:hover {
     display:none;
     text-align: center;
     margin-top: 47%;
-    font-size: 70px;
+    font-size: var(--largest-font-size);
 }
 
 #loading-screen.loading {
@@ -146,7 +152,7 @@ button:hover {
 }
 
 h1{
-    font-size: 35px;
+    font-size: 38px;
 }
 
 #title {
@@ -154,7 +160,7 @@ h1{
   position: absolute;
   right: 2%;
   top: 2%;
-  font-size: 75px;
+  font-size: var(--largest-font-size);
 }
 
 /*MAIN SECTION*/
@@ -193,7 +199,7 @@ input::placeholder, input {
     font-weight:bolder;
     text-transform: uppercase;
     font-family: "Sour Gummy";
-    font-size: 20px;
+    font-size: var(--medium-font-size);
 }
 
 /*MAIN CURRENT CONDITIONS*/
@@ -212,6 +218,10 @@ input::placeholder, input {
   height: auto;
 }
 
+#location-title {
+    font-size: clamp(35px, 1.5rem + 1.8vw, 50px);
+}
+
 #description {
   width: 60%;
   text-align: center;
@@ -222,7 +232,7 @@ input::placeholder, input {
     border-bottom: 2px solid black;
     padding: 10px;
     justify-content: space-between;
-    font-size: 20px;
+    font-size: var(--medium-font-size);
 }
 
 .others-section svg {
@@ -302,8 +312,8 @@ input::placeholder, input {
     
     #pokeball{
         display: block;
-        width: 250px;
-        height: 250px;
+        width: 200px;
+        height: 200px;
     }
 
     #loading-screen {
@@ -327,22 +337,21 @@ input::placeholder, input {
     "main"
     "other"
     "future";
+    padding: 2%;
     }
 
     body {
-        padding: 5%;
+        padding: 2%;
     }
 
     #title {
-        top:0px;
-         left: 10px;
+        top: 20px;
+        right: 20px;
     }
 
     .main-section{
         margin-top: 60px;
     }
 
-    .circles div {
-        display: none;
-    }
+    
 }
