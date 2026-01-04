@@ -144,9 +144,19 @@ function displayForcast() {
     const card = document.createElement("div");
     card.classList.add("day-card", "flex");
 
+    const dayDiv = document.createElement("div");
+    dayDiv.classList.add("flex", "flex-col", "flex-ali");
+
     const dayTitle = document.createElement("h2");
     dayTitle.classList.add("day-name");
     dayTitle.textContent = formatDate(day.datetime, "day");
+
+    const dayDate = document.createElement("p");
+    dayDate.classList.add("non-pixel", "day-date");
+    dayDate.textContent = formatDate(day.datetime, "other");
+
+    dayDiv.append(dayTitle,dayDate);
+
 
     const img = document.createElement("img");
     showImage(day.icon, img);
@@ -165,7 +175,7 @@ function displayForcast() {
 
     temperatureDiv.append(colder, temperature);
 
-    card.append(dayTitle, img, temperatureDiv);
+    card.append(dayDiv, img, temperatureDiv);
     forecastContainer.append(card);
   }
 }
@@ -204,7 +214,7 @@ function formatDate(dateString, specifier) {
   } else if (specifier == "date") {
     return format(parseISO(dateString), "EEEE, MMMM d");
   }
-  return format(parseISO(dateString), "MMMM d");
+  return format(parseISO(dateString), "MMM d");
 }
 
 function convertToCelcius(temp) {

@@ -211,12 +211,15 @@ input::placeholder, input {
 
 .current-conditions-main {
   justify-content: space-evenly;
+  font-size: var(--medium-font-size);
 }
 
 .current-conditions-main img {
   width: 250px;
   height: auto;
 }
+
+
 
 #location-title {
     font-size: clamp(35px, 1.5rem + 1.8vw, 50px);
@@ -286,6 +289,14 @@ input::placeholder, input {
     height: 100px;
 }
 
+.day-card div:first-of-type{
+    gap: 0px;
+}
+
+.day-card .day-date {
+    font-size: 20px;
+}
+
 .cards {
     gap: 10px;
     height: 80%;
@@ -293,9 +304,10 @@ input::placeholder, input {
     display: flex;
 }
 
-.cards .coldest {
+.cards .coldest, .day-date {
     opacity: 0.8;
 }
+
 
 @media screen and (max-width: 1500px)
 {
