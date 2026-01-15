@@ -16,7 +16,6 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   const userInput = document.querySelector("input").value.trim();
   location = userInput;
-  console.log(location);
   form.reset();
   runSkydex();
 });
@@ -38,7 +37,13 @@ function runSkydex()
   })
   .then(displayMainSection)
   .then(displayOtherSection)
-  .then(displayForcast);
+  .then(displayForcast)
+  .then(()=>{
+    if (changeMeasurementBtn.textContent == "°F"){
+    changeMeasurementBtn.textContent = "°C"
+    changeMeasurement();
+   }
+  });
 }
 
 async function getAPIData() {
