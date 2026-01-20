@@ -219,8 +219,6 @@ input::placeholder, input {
   height: auto;
 }
 
-
-
 #location-title {
     font-size: clamp(35px, 1.5rem + 1.8vw, 50px);
 }

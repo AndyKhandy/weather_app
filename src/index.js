@@ -7,7 +7,8 @@ const changeMeasurementBtn = document.querySelector("#change-measurement");
 const loadingScreen = document.querySelector("#loading-screen");
 const mainScreen = document.querySelector(".main-content");
 
-let location = "Tokyo";
+let location = localStorage.getItem("savedLocation") || "Tokyo";
+let useCelcius = localStorage.getItem("savedPreference") || false;
 let weatherAPIdata = null;
 let weatherAPIdaysData = null;
 let currentConditionsData = null;
@@ -16,6 +17,7 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   const userInput = document.querySelector("input").value.trim();
   location = userInput;
+  localStorage.setItem("savedLocation", location);
   form.reset();
   runSkydex();
 });
@@ -23,6 +25,11 @@ form.addEventListener("submit", (e) => {
 changeMeasurementBtn.addEventListener("click", () => {
   changeMeasurement();
 });
+
+if(useCelcius)
+{
+  changeMeasurementBtn.textContent = "°F";
+}
 
 runSkydex();
 
@@ -191,9 +198,11 @@ function changeMeasurement() {
 
   if (changeMeasurementBtn.textContent == "°F") {
     convertToC = false;
+    localStorage.setItem("savedPreference", false);
     changeMeasurementBtn.textContent = "°C";
   } else {
     changeMeasurementBtn.textContent = "°F";
+    localStorage.setItem("savedPreference", true);
   }
 
   temperatureElements.forEach((element) => {
